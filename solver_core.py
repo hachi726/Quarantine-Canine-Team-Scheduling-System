@@ -70,7 +70,12 @@ def run_solver(current_file_path: Path, previous_file_path: Path = None):
             start_idx = (sd - first_day).days if sd > first_day else 0 if sd is not None else max(0, int(start_raw) - 1)
         
         group_counters[group] += 1
-        people.append({"name": name, "group": group, "id": f"{group}{group_counters[group]}", "basic_days": basic_days, "holiday_days": holiday_days, "start_idx": start_idx})
+        current_id = f"{group}{group_counters[group]}"
+        
+        # 【除錯日誌】印出每個人的起始上班日讀取狀況
+        print(f"讀取人員: {name} (ID: {current_id}) | 第5欄原始值: {repr(start_raw)} | 計算出的 start_idx: {start_idx}")
+        
+        people.append({"name": name, "group": group, "id": current_id, "basic_days": basic_days, "holiday_days": holiday_days, "start_idx": start_idx})
 
     name_set = {p["name"] for p in people}
     requested_off = defaultdict(set)
